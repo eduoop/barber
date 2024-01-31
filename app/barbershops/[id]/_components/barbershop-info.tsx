@@ -25,7 +25,7 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
   const navigate = useRouter();
 
   const handleBackClick = () => {
-    navigate.back();
+    navigate.replace("/");
   };
 
   return (
