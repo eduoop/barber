@@ -1,5 +1,7 @@
 "use client";
+import SideMenu from "@/app/_components/side-menu";
 import { Button } from "@/app/_components/ui/button";
+import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet";
 import { db } from "@/app/_lib/prisma";
 import { Barbershop } from "@prisma/client";
 import {
@@ -16,16 +18,15 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 interface BarbershopInfoProps {
-    barbershop: Barbershop
-  }
+  barbershop: Barbershop;
+}
 
 const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
+  const navigate = useRouter();
 
-    const navigate = useRouter()
-
-    const handleBackClick = () => {
-        navigate.back();
-    }
+  const handleBackClick = () => {
+    navigate.back();
+  };
 
   return (
     <div>
@@ -39,13 +40,19 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
           <ChevronLeftIcon />
         </Button>
 
-        <Button
-          size={"icon"}
-          variant={"outline"}
-          className="z-50 top-4 right-4 absolute"
-        >
-          <MenuIcon />
-        </Button>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button
+              size={"icon"}
+              variant={"outline"}
+              className="z-50 top-4 right-4 absolute"
+            >
+              <MenuIcon />
+            </Button>
+          </SheetTrigger>
+
+          <SideMenu />
+        </Sheet>
 
         <Image
           alt={barbershop.name}
