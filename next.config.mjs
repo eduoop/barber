@@ -4,7 +4,7 @@ const nextConfig = {
         remotePatterns: [{
             hostname: 'utfs.io'
         }]
-    }
+    },
 };
 
 export default nextConfig;
