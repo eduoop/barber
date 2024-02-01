@@ -37,7 +37,7 @@ const ServiceItem = ({
   barberShop,
 }: ServiceItemProps) => {
   const { data } = useSession();
-  const router = useRouter()
+  const router = useRouter();
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [hour, setHour] = useState<string | undefined>(undefined);
   const [submitIsLoading, setSubmitIsLoading] = useState(false);
@@ -84,6 +84,12 @@ const ServiceItem = ({
       });
     } catch (err) {
       console.log(err);
+      alert(
+        "Não foi possível realizar o agendamento! Tente novamente mais tarde"
+      );
+      setSheetIsOpen(false);
+      setHour(undefined);
+      setDate(undefined);
     } finally {
       setSubmitIsLoading(false);
     }
