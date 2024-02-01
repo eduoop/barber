@@ -3,6 +3,7 @@
 import { Button } from "@/app/_components/ui/button";
 import { Calendar } from "@/app/_components/ui/calendar";
 import { Card, CardContent } from "@/app/_components/ui/card";
+import { toast } from "sonner";
 import {
   Sheet,
   SheetContent,
@@ -23,6 +24,7 @@ import { format } from "date-fns/format";
 import { SaveBooking } from "../_actions/save-booking";
 import { setHours, setMinutes } from "date-fns";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 interface ServiceItemProps {
   service: Service;
   barberShop: Barbershop;
@@ -35,9 +37,11 @@ const ServiceItem = ({
   barberShop,
 }: ServiceItemProps) => {
   const { data } = useSession();
+  const router = useRouter()
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [hour, setHour] = useState<string | undefined>(undefined);
   const [submitIsLoading, setSubmitIsLoading] = useState(false);
+  const [sheetIsOpen, setSheetIsOpen] = useState(false);
 
   const handleBookingClick = () => {
     if (!isAuthenticated) {
@@ -63,6 +67,20 @@ const ServiceItem = ({
         barbershopId: barberShop.id,
         date: newDate,
         userId: (data.user as any).id,
+      });
+
+      setSheetIsOpen(false);
+      setHour(undefined);
+      setDate(undefined);
+
+      toast("Reserva realizada com sucesso!", {
+        description: format(newDate, "'Para' dd 'de' MMMM 'às' HH':'mm'.'", {
+          locale: ptBR,
+        }),
+        action: {
+          label: "Visualizar",
+          onClick: () => router.push("/bookings"),
+        },
       });
     } catch (err) {
       console.log(err);
@@ -106,7 +124,7 @@ const ServiceItem = ({
                   currency: "BRL",
                 }).format(Number(service.price))}
               </p>
-              <Sheet>
+              <Sheet open={sheetIsOpen} onOpenChange={setSheetIsOpen}>
                 <SheetTrigger asChild>
                   <Button variant={"secondary"} onClick={handleBookingClick}>
                     Fazer reserva
@@ -221,7 +239,6 @@ const ServiceItem = ({
                       {submitIsLoading && (
                         <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                       )}
-                      
                       Confirmar
                     </Button>
                   </SheetFooter>
