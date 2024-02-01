@@ -13,29 +13,62 @@ import {
 } from "@/app/_components/ui/sheet";
 import { Barbershop, Service } from "@prisma/client";
 import { ptBR } from "date-fns/locale/pt-BR";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
 import { generateDayTimeList } from "../_helpers/hours";
 import { useMemo, useState } from "react";
 import { Badge } from "@/app/_components/ui/badge";
 import { format } from "date-fns/format";
+import { SaveBooking } from "../_actions/save-booking";
+import { setHours, setMinutes } from "date-fns";
+import { Loader2 } from "lucide-react";
 interface ServiceItemProps {
   service: Service;
   barberShop: Barbershop;
   isAuthenticated?: boolean;
 }
 
-const ServiceItem = ({ service, isAuthenticated, barberShop }: ServiceItemProps) => {
+const ServiceItem = ({
+  service,
+  isAuthenticated,
+  barberShop,
+}: ServiceItemProps) => {
+  const { data } = useSession();
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [hour, setHour] = useState<string | undefined>(undefined);
+  const [submitIsLoading, setSubmitIsLoading] = useState(false);
 
   const handleBookingClick = () => {
     if (!isAuthenticated) {
       return signIn();
     }
+  };
 
-    // TODO abrir modal de agendamentos
+  const handleBookingSubmit = async () => {
+    setSubmitIsLoading(true);
+
+    if (!hour || !date || !data?.user) {
+      return;
+    }
+
+    const dateHour = Number(hour.split(":")[0]);
+    const dateMinutes = Number(hour.split(":")[1]);
+
+    const newDate = setMinutes(setHours(date, dateHour), dateMinutes);
+
+    try {
+      await SaveBooking({
+        serviceId: service.id,
+        barbershopId: barberShop.id,
+        date: newDate,
+        userId: (data.user as any).id,
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setSubmitIsLoading(false);
+    }
   };
 
   const timeList = useMemo(() => {
@@ -46,6 +79,8 @@ const ServiceItem = ({ service, isAuthenticated, barberShop }: ServiceItemProps)
   const handleHourClick = (time: string) => {
     setHour(time);
   };
+
+  const submitDisabled = !date || !hour || submitIsLoading;
 
   return (
     <Card>
@@ -83,12 +118,13 @@ const ServiceItem = ({ service, isAuthenticated, barberShop }: ServiceItemProps)
                     <SheetTitle>Agendar</SheetTitle>
                   </SheetHeader>
 
-                  <div className="py-6">
+                  <div className="py-6 w-full">
                     <Calendar
                       mode="single"
                       selected={date}
                       onSelect={setDate}
                       locale={ptBR}
+                      className="w-full"
                       fromDate={new Date()}
                       styles={{
                         head_cell: {
@@ -159,15 +195,15 @@ const ServiceItem = ({ service, isAuthenticated, barberShop }: ServiceItemProps)
                         {hour && (
                           <div className="flex justify-between">
                             <h3 className="text-sm text-gray-400 ">Horário</h3>
-                            <h4 className="text-sm text-gray-400">
-                              {hour}
-                            </h4>
+                            <h4 className="text-sm text-gray-400">{hour}</h4>
                           </div>
                         )}
 
                         {barberShop && (
                           <div className="flex justify-between">
-                            <h3 className="text-sm text-gray-400 ">Barbearia</h3>
+                            <h3 className="text-sm text-gray-400 ">
+                              Barbearia
+                            </h3>
                             <h4 className="text-sm text-gray-400">
                               {barberShop.name}
                             </h4>
@@ -178,8 +214,17 @@ const ServiceItem = ({ service, isAuthenticated, barberShop }: ServiceItemProps)
                   </div>
 
                   <SheetFooter className="px-5">
-                      <Button disabled={!(date && hour)}>Confirmar</Button>
-                    </SheetFooter>
+                    <Button
+                      onClick={handleBookingSubmit}
+                      disabled={submitDisabled}
+                    >
+                      {submitIsLoading && (
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      )}
+                      
+                      Confirmar
+                    </Button>
+                  </SheetFooter>
                 </SheetContent>
               </Sheet>
             </div>
