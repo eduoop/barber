@@ -20,7 +20,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
     const pastBooking = isPast(booking.date)
 
   return (
-    <Card className='hover:bg-accent duration-150 cursor-pointer '>
+    <Card className='hover:bg-accent duration-150 cursor-pointer min-w-full '>
         <CardContent className='py-0 flex px-0'>
             <div className='flex flex-col gap-2 py-5 flex-[3] pl-5'>
                 <Badge variant={
