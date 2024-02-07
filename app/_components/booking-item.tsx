@@ -107,7 +107,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
         </Card>
       </SheetTrigger>
 
-      <SheetContent className="px-0">
+      <SheetContent className="px-0 overflow-y-auto">
         <SheetHeader className="text-left px-5 pb-6 border-b border-solid border-secondary">
           <SheetTitle>Informações da reserva</SheetTitle>
         </SheetHeader>
@@ -183,7 +183,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
             </CardContent>
           </Card>
 
-          <SheetFooter className="flex-row w-full gap-3 mt-6">
+          <SheetFooter className="flex-row w-full gap-3 mt-6 pb-5">
             <SheetClose asChild>
               <Button className="w-full" variant={"secondary"}>
                 Voltar
