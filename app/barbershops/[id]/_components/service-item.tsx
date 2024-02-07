@@ -263,10 +263,10 @@ const ServiceItem = ({
 
                         {barberShop && (
                           <div className="flex justify-between">
-                            <h3 className="text-sm text-gray-400 ">
+                            <h3 className="text-sm text-gray-400">
                               Barbearia
                             </h3>
-                            <h4 className="text-sm text-gray-400">
+                            <h4 className="text-sm text-gray-400 text-right">
                               {barberShop.name}
                             </h4>
                           </div>
