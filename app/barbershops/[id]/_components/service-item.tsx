@@ -161,7 +161,7 @@ const ServiceItem = ({
             <h2 className="font-bold">{service.name}</h2>
             <p className="text-sm text-gray-400">{service.description}</p>
 
-            <div className="flex items-center justify-between mt-3">
+            <div className="flex items-center gap-2 justify-between mt-3 flex-wrap">
               <p className="text-primary font-bold text-sm">
                 {Intl.NumberFormat("pt-BR", {
                   style: "currency",
@@ -275,7 +275,7 @@ const ServiceItem = ({
                     </Card>
                   </div>
 
-                  <SheetFooter className="px-5">
+                  <SheetFooter className="px-5 pb-5">
                     <Button
                       onClick={handleBookingSubmit}
                       disabled={submitDisabled}
