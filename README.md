@@ -56,7 +56,7 @@ No <.env> adicione as variáveis <GOOGLE_CLIENT_ID> e <GOOGLE_CLIENT_SECRET>. (V
 elas no console do Google)
 ```
 
-## ☕ Preparando o bando de dados
+## 🎲 Preparando o bando de dados
 
 Para preparar e popular o banco, siga estas etapas:
 
@@ -78,6 +78,12 @@ Para preparar e popular o banco, siga estas etapas:
 
 ```
 para rodar o projeto, use: <npm run dev>
+```
+
+## 💻 Projeto hospedado
+
+```
+<https://barbershop-bookings.vercel.app/>
 ```
 
 ## 🤝 Criador
