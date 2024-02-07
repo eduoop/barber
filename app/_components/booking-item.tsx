@@ -107,7 +107,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
         </Card>
       </SheetTrigger>
 
-      <SheetContent className="px-0 overflow-y-auto">
+      <SheetContent className="px-0 overflow-y-auto w-[85%] md:w-[75%]">
         <SheetHeader className="text-left px-5 pb-6 border-b border-solid border-secondary">
           <SheetTitle>Informações da reserva</SheetTitle>
         </SheetHeader>
@@ -116,7 +116,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           <div className="relative h-[180px] w-full mt-6">
             <Image src="/map.png" fill alt={booking.service.name} />
 
-            <div className="w-full absolute bottom-4 left-0 px-5">
+            <div className="w-full absolute bottom-4 left-0 px-2 md:px-5">
               <Card>
                 <CardContent className="p-3 flex gap-2">
                   <Avatar>
@@ -125,7 +125,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
 
                   <div>
                     <h2 className="font-bold">{booking.barbershop.name}</h2>
-                    <h3 className="text-xs overflow-hidden text-nowrap text-ellipsis">
+                    <h3 className="text-xs overflow-hidden text-ellipsis">
                       {booking.barbershop.address}
                     </h3>
                   </div>
@@ -175,7 +175,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
               {booking.barbershop && (
                 <div className="flex justify-between">
                   <h3 className="text-sm text-gray-400 ">Barbearia</h3>
-                  <h4 className="text-sm text-gray-400">
+                  <h4 className="text-sm text-gray-400 text-right">
                     {booking.barbershop.name}
                   </h4>
                 </div>
@@ -183,7 +183,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
             </CardContent>
           </Card>
 
-          <SheetFooter className="flex-row w-full gap-3 mt-6 pb-5">
+          <SheetFooter className="flex-col md:flex-row w-full gap-3 mt-6 pb-5">
             <SheetClose asChild>
               <Button className="w-full" variant={"secondary"}>
                 Voltar
