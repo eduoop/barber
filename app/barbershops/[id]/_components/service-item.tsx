@@ -175,7 +175,7 @@ const ServiceItem = ({
                   </Button>
                 </SheetTrigger>
 
-                <SheetContent className="p-0">
+                <SheetContent className="p-0 overflow-y-auto">
                   <SheetHeader className="text-left px-5 py-6 border-b border-solid border-secondary">
                     <SheetTitle>Agendar</SheetTitle>
                   </SheetHeader>
@@ -215,7 +215,7 @@ const ServiceItem = ({
                   </div>
 
                   {date && (
-                    <div className="py-6 px-5 border-t border-solid border-secondary flex overflow-x-auto [&::-webkit-scrollbar]:hidden gap-3">
+                    <div className="py-2 px-5 border-t border-solid border-secondary flex overflow-x-auto [&::-webkit-scrollbar]:hidden gap-3">
                       {timeList.map((time, i) => (
                         <Button
                           onClick={() => handleHourClick(time)}
