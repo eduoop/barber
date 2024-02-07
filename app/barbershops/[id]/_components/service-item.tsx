@@ -44,21 +44,20 @@ const ServiceItem = ({
   const [sheetIsOpen, setSheetIsOpen] = useState(false);
   const [dayBookings, setDayBookings] = useState<Booking[]>([]);
 
-  const refreshAvailableHours = async () => {
+  useEffect(() => {
     if (!date) {
       return;
     }
 
-    const _dayBookings = await GetDayBookings({
-      barbershopId: barberShop.id,
-      date
-    });
-    setDayBookings(_dayBookings);
-  };
+    const refreshAvailableHours = async () => {
+      const _dayBookings = await GetDayBookings({
+        barbershopId: barberShop.id, date
+      });
+      setDayBookings(_dayBookings);
+    };
 
-  useEffect(() => {
     refreshAvailableHours();
-  }, [date]);
+  }, [date, barberShop.id]);
 
   const handleBookingClick = () => {
     if (!isAuthenticated) {
