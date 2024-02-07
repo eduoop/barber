@@ -36,7 +36,11 @@ export default async function Home() {
       <Header />
 
       <div className="px-5 pt-5">
-        <h2 className="text-xl font-bold">{session?.user ? `Olá, ${session.user.name?.split(" ")[0]}` : "Olá. Vamos agendar um horário hoje?"}</h2>
+        <h2 className="text-xl font-bold">
+          {session?.user
+            ? `Olá, ${session.user.name?.split(" ")[0]}`
+            : "Olá. Vamos agendar um horário hoje?"}
+        </h2>
         <p className="capitalize text-sm">
           {format(new Date(), "EEEE',' dd 'de' MMMM", {
             locale: ptBR,
@@ -45,7 +49,9 @@ export default async function Home() {
       </div>
 
       <div className="px-5 mt-6">
-        <Search />
+        <Search defaultValues={{
+          search: ""
+        }}/>
       </div>
 
       <div className="mt-6">
@@ -73,7 +79,9 @@ export default async function Home() {
 
         <div className="px-5 flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
           {barbershops.map((barbershop) => (
-            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+            <div key={barbershop.id} className="min-w-[167px] max-w-[167px]">
+              <BarbershopItem barbershop={barbershop} />
+            </div>
           ))}
         </div>
       </div>
@@ -87,7 +95,9 @@ export default async function Home() {
 
         <div className="px-5 flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
           {barbershops.map((barbershop) => (
-            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+             <div key={barbershop.id} className="min-w-[167px] max-w-[167px]">
+             <BarbershopItem barbershop={barbershop} />
+           </div>
           ))}
         </div>
       </div>
