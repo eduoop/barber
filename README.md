@@ -49,7 +49,7 @@ Linux, macOS e Windows:
 Crie o arquivo <.env> e adicione a propiedade <DATABASE_URL=postgresql://postgres:password@localhost:5432> para que o prisma possa se conectar com o banco. 
 ```
 
-## 5. Adicione as variaveis do google para usar oauth:
+## 6. Adicione as variaveis do google para usar oauth:
 
 ```
 No <.env> adicione as variáveis <GOOGLE_CLIENT_ID> e <GOOGLE_CLIENT_SECRET>. (Você precisará gerar
@@ -80,7 +80,7 @@ Para preparar e popular o banco, siga estas etapas:
 para rodar o projeto, use: <npm run dev>
 ```
 
-## 💻 Projeto hospedado
+## ⛓️ Projeto hospedado
 
 ```
 <https://barbershop-bookings.vercel.app/>
