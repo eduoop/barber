@@ -23,7 +23,7 @@ const BarbershopItem = ({ barbershop }: BarbershopItem) => {
 
   return (
     <Card className="min-w-full max-w-full rounded-2xl">
-      <CardContent className="px-1 py-0">
+      <CardContent className="px-1 py-0 pt-1">
         <div className="relative w-full h-[159px]">
           <div className="absolute top-2 left-2 z-50">
             <Badge variant={"secondary"} className="opacity-90 flex gap-1 items-center cursor-default">
