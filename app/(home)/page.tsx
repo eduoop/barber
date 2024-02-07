@@ -10,24 +10,25 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 export default async function Home() {
   const session = await getServerSession(authOptions);
-  
-  const [barbershops, confirmedUserBookings] = await Promise.all([
-  db.barbershop.findMany({}),
 
-  session?.user ? db.booking.findMany({
-    where: {
-      userId: (session.user as any).id,
-      date: {
-        gte: new Date()
-      }
-    },
-    include: {
-      service: true,
-      barbershop: true,
-    },
-  })
-  : Promise.resolve([])
- ])
+  const [barbershops, confirmedUserBookings] = await Promise.all([
+    db.barbershop.findMany({}),
+
+    session?.user
+      ? db.booking.findMany({
+          where: {
+            userId: (session.user as any).id,
+            date: {
+              gte: new Date(),
+            },
+          },
+          include: {
+            service: true,
+            barbershop: true,
+          },
+        })
+      : Promise.resolve([]),
+  ]);
 
   return (
     <div>
@@ -47,11 +48,13 @@ export default async function Home() {
       </div>
 
       <div className="mt-6">
-        <div className="mb-3">
-          <h2 className="text-xs uppercase text-gray-400 font-bold pl-5">
-            Agendamentos
-          </h2>
-        </div>
+        {confirmedUserBookings.length > 0 && (
+          <div className="mb-3">
+            <h2 className="text-xs uppercase text-gray-400 font-bold pl-5">
+              Agendamentos
+            </h2>
+          </div>
+        )}
 
         <div className=" px-5 flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
           {confirmedUserBookings.map((booking) => (
