@@ -21,7 +21,7 @@ import { generateDayTimeList } from "../_helpers/hours";
 import { useMemo, useState, useEffect } from "react";
 import { format } from "date-fns/format";
 import { SaveBooking } from "../_actions/save-booking";
-import { setHours, setMinutes } from "date-fns";
+import { addDays, setHours, setMinutes } from "date-fns";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { GetDayBookings } from "../_actions/get-day-bookings";
@@ -187,7 +187,7 @@ const ServiceItem = ({
                       onSelect={setDate}
                       locale={ptBR}
                       className="w-full"
-                      fromDate={new Date()}
+                      fromDate={addDays(new Date(), 1)}
                       styles={{
                         head_cell: {
                           width: "100%",
