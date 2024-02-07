@@ -19,7 +19,6 @@ import Image from "next/image";
 import React from "react";
 import { generateDayTimeList } from "../_helpers/hours";
 import { useMemo, useState, useEffect } from "react";
-import { Badge } from "@/app/_components/ui/badge";
 import { format } from "date-fns/format";
 import { SaveBooking } from "../_actions/save-booking";
 import { setHours, setMinutes } from "date-fns";
