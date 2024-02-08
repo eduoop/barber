@@ -38,11 +38,11 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
     navigate.replace("/");
   };
 
-  const handleFavoriteBarbershop = () => {
+  const handleFavoriteBarbershop = async () => {
     if (data?.user) {
       setLoadingToggleFavorite(true);
       try {
-        toggleFavoriteBarbershop((data.user as any).id, barbershop.id);
+        await toggleFavoriteBarbershop((data.user as any).id, barbershop.id);
       } catch (err) {
         console.log(err);
       } finally {
@@ -120,7 +120,7 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
           {loadingToggleFavorite ? (
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />
           ) : (
-            <StarIcon className="h-5 w-5 mr-2"/>
+            <StarIcon className="h-5 w-5 mr-2" />
           )}
           {isFavorite ? "Remover dos favoritos" : "Favoritar"}
         </Button>
