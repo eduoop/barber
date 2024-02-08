@@ -3,9 +3,10 @@ import SideMenu from "@/app/_components/side-menu";
 import { Button } from "@/app/_components/ui/button";
 import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet";
 import { db } from "@/app/_lib/prisma";
-import { Barbershop } from "@prisma/client";
+import { Barbershop, Prisma } from "@prisma/client";
 import {
   ChevronLeftIcon,
+  Loader2,
   LocateFixed,
   LocateIcon,
   MapPin,
@@ -15,18 +16,51 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { toggleFavoriteBarbershop } from "../_actions/toggle-favorite-barbershop";
+import { useSession } from "next-auth/react";
+import { isFavoriteBarbershop } from "../../../_helpers/isFavoriteBarbership";
 
 interface BarbershopInfoProps {
-  barbershop: Barbershop;
+  barbershop: Prisma.BarbershopGetPayload<{
+    include: {
+      UserFavoriteBarbershop: true;
+    };
+  }>;
 }
 
 const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
   const navigate = useRouter();
-
+  const { data } = useSession();
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [loadingToggleFavorite, setLoadingToggleFavorite] = useState(false);
   const handleBackClick = () => {
     navigate.replace("/");
   };
+
+  const handleFavoriteBarbershop = () => {
+    if (data?.user) {
+      setLoadingToggleFavorite(true);
+      try {
+        toggleFavoriteBarbershop((data.user as any).id, barbershop.id);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoadingToggleFavorite(false);
+      }
+    }
+  };
+
+  useMemo(() => {
+    if (data?.user) {
+      setIsFavorite(
+        isFavoriteBarbershop(
+          barbershop.UserFavoriteBarbershop,
+          (data.user as any).id
+        )
+      );
+    }
+  }, [data?.user, barbershop.UserFavoriteBarbershop]);
 
   return (
     <div>
@@ -72,8 +106,24 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
 
         <div className="flex items-center gap-1 mt-2">
           <StarIcon className="text-primary" size={18} />
-          <p className="text-sm">5,0 (253 avaliações)</p>
+          <p className="text-sm">
+            {barbershop.UserFavoriteBarbershop.length} favoritos
+          </p>
         </div>
+
+        <Button
+          disabled={loadingToggleFavorite}
+          onClick={handleFavoriteBarbershop}
+          className="mt-4"
+          variant={"secondary"}
+        >
+          {loadingToggleFavorite ? (
+            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+          ) : (
+            <StarIcon className="h-5 w-5 mr-2"/>
+          )}
+          {isFavorite ? "Remover dos favoritos" : "Favoritar"}
+        </Button>
       </div>
     </div>
   );

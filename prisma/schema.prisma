@@ -11,23 +11,33 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  bookings      Booking[]
+  id                     String                   @id @default(cuid())
+  name                   String?
+  email                  String?                  @unique
+  emailVerified          DateTime?
+  image                  String?
+  accounts               Account[]
+  sessions               Session[]
+  bookings               Booking[]
+  userFavoriteBarbershops UserFavoriteBarbershop[]
 }
 
 model Barbershop {
-  id       String    @id @default(uuid())
-  name     String
-  address  String
-  imageUrl String
-  services Service[]
-  bookings Booking[]
+  id                     String                   @id @default(uuid())
+  name                   String
+  address                String
+  imageUrl               String
+  services               Service[]
+  bookings               Booking[]
+  UserFavoriteBarbershop UserFavoriteBarbershop[]
+}
+
+model UserFavoriteBarbershop {
+  id           String     @id @default(uuid())
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  barbershopId String
+  barbershop   Barbershop @relation(fields: [barbershopId], references: [id])
 }
 
 model Service {

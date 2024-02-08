@@ -34,6 +34,7 @@ const BarbershopDetails = async ({ params }: BarbershopDetailsProps) => {
     },
     include: {
       services: true,
+      UserFavoriteBarbershop: true
     },
   });
 
