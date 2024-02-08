@@ -38,11 +38,16 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
     navigate.replace("/");
   };
 
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite)
+  }
+
   const handleFavoriteBarbershop = async () => {
     if (data?.user) {
       setLoadingToggleFavorite(true);
       try {
         await toggleFavoriteBarbershop((data.user as any).id, barbershop.id);
+        toggleFavorite()
       } catch (err) {
         console.log(err);
       } finally {
@@ -51,7 +56,7 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
     }
   };
 
-  useMemo(() => {
+  useEffect(() => {
     if (data?.user) {
       setIsFavorite(
         isFavoriteBarbershop(
@@ -60,7 +65,7 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
         )
       );
     }
-  }, [data?.user, barbershop.UserFavoriteBarbershop]);
+  }, []);
 
   return (
     <div>
