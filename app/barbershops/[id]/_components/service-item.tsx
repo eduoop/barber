@@ -25,16 +25,17 @@ import { addDays, setHours, setMinutes } from "date-fns";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { GetDayBookings } from "../_actions/get-day-bookings";
+import { BookingInfo } from "@/app/_components/booking-info";
 interface ServiceItemProps {
   service: Service;
-  barberShop: Barbershop;
+  barbershop: Barbershop;
   isAuthenticated?: boolean;
 }
 
 const ServiceItem = ({
   service,
   isAuthenticated,
-  barberShop,
+  barbershop,
 }: ServiceItemProps) => {
   const { data } = useSession();
   const router = useRouter();
@@ -51,13 +52,14 @@ const ServiceItem = ({
 
     const refreshAvailableHours = async () => {
       const _dayBookings = await GetDayBookings({
-        barbershopId: barberShop.id, date
+        barbershopId: barbershop.id,
+        date,
       });
       setDayBookings(_dayBookings);
     };
 
     refreshAvailableHours();
-  }, [date, barberShop.id]);
+  }, [date, barbershop.id]);
 
   const handleBookingClick = () => {
     if (!isAuthenticated) {
@@ -80,7 +82,7 @@ const ServiceItem = ({
     try {
       await SaveBooking({
         serviceId: service.id,
-        barbershopId: barberShop.id,
+        barbershopId: barbershop.id,
         date: newDate,
         userId: (data.user as any).id,
       });
@@ -119,7 +121,6 @@ const ServiceItem = ({
     }
 
     return generateDayTimeList(date).filter((time) => {
-
       const timeHour = Number(time.split(":")[0]);
       const timeMinutes = Number(time.split(":")[1]);
 
@@ -134,7 +135,7 @@ const ServiceItem = ({
         return true;
       }
 
-      return false
+      return false;
     });
   }, [date, dayBookings]);
 
@@ -230,49 +231,19 @@ const ServiceItem = ({
                   )}
 
                   <div className="py-6 px-5 border-t border-solid border-secondary">
-                    <Card>
-                      <CardContent className="p-3 flex flex-col gap-3">
-                        <div className="flex justify-between">
-                          <h2 className="font-bold">{service.name}</h2>
-                          <h3 className="font-bold text-sm">
-                            {" "}
-                            {Intl.NumberFormat("pt-BR", {
-                              style: "currency",
-                              currency: "BRL",
-                            }).format(Number(service.price))}
-                          </h3>
-                        </div>
-
-                        {date && (
-                          <div className="flex justify-between">
-                            <h3 className="text-sm text-gray-400">Data</h3>
-                            <h4 className="text-sm text-gray-400">
-                              {format(date, "dd 'de' MMMM", {
-                                locale: ptBR,
-                              })}
-                            </h4>
-                          </div>
-                        )}
-
-                        {hour && (
-                          <div className="flex justify-between">
-                            <h3 className="text-sm text-gray-400 ">Horário</h3>
-                            <h4 className="text-sm text-gray-400">{hour}</h4>
-                          </div>
-                        )}
-
-                        {barberShop && (
-                          <div className="flex justify-between">
-                            <h3 className="text-sm text-gray-400">
-                              Barbearia
-                            </h3>
-                            <h4 className="text-sm text-gray-400 text-right">
-                              {barberShop.name}
-                            </h4>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
+                    <BookingInfo
+                      booking={{
+                        barbershop: barbershop,
+                        date:
+                          date && hour
+                            ? setMinutes(
+                                setHours(date, Number(hour.split(":")[0])),
+                                Number(hour.split(":")[1])
+                              )
+                            : undefined,
+                        service: service,
+                      }}
+                    />
                   </div>
 
                   <SheetFooter className="px-5 pb-5">
