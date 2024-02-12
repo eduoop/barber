@@ -6,6 +6,7 @@ import {
   HomeIcon,
   LogInIcon,
   LogOutIcon,
+  StarIcon,
   UserIcon,
 } from "lucide-react";
 
@@ -77,6 +78,15 @@ const SideMenu = () => {
               <Link href="/bookings">
                 <CalendarIcon size={18} className="mr-2" />
                 Agendamentos
+              </Link>
+            </Button>
+          )}
+
+          {data && data.user && (
+            <Button asChild variant={"outline"} className="justify-start">
+              <Link href="/favorites">
+                <StarIcon size={18} className="mr-2" />
+                Favoritas
               </Link>
             </Button>
           )}

@@ -2,7 +2,7 @@
 import React from "react";
 import { db } from "../_lib/prisma";
 import Header from "../_components/header";
-import BarbershopItem from "../(home)/_components/barbershop-item";
+import BarbershopItem from "../_components/barbershop-item";
 import { redirect } from "next/navigation";
 import Search from "../(home)/_components/search";
 
