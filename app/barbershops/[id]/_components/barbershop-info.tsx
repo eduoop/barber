@@ -13,6 +13,7 @@ import {
   MapPinIcon,
   MenuIcon,
   StarIcon,
+  StarOffIcon,
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -39,15 +40,15 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
   };
 
   const toggleFavorite = () => {
-    setIsFavorite(!isFavorite)
-  }
+    setIsFavorite(!isFavorite);
+  };
 
   const handleFavoriteBarbershop = async () => {
     if (data?.user) {
       setLoadingToggleFavorite(true);
       try {
         await toggleFavoriteBarbershop((data.user as any).id, barbershop.id);
-        toggleFavorite()
+        toggleFavorite();
       } catch (err) {
         console.log(err);
       } finally {
@@ -116,19 +117,25 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
           </p>
         </div>
 
-        <Button
-          disabled={loadingToggleFavorite}
-          onClick={handleFavoriteBarbershop}
-          className="mt-4"
-          variant={"secondary"}
-        >
-          {loadingToggleFavorite ? (
-            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-          ) : (
-            <StarIcon className="h-5 w-5 mr-2" />
-          )}
-          {isFavorite ? "Remover dos favoritos" : "Favoritar"}
-        </Button>
+        {data?.user && (
+          <Button
+            disabled={loadingToggleFavorite}
+            onClick={handleFavoriteBarbershop}
+            className="mt-4"
+            variant={"secondary"}
+          >
+            {loadingToggleFavorite ? (
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+            ) : 
+              isFavorite ? 
+              <StarOffIcon className="h-5 w-5 mr-2" />
+               : 
+               <StarIcon className="h-5 w-5 mr-2" />
+            }
+             {isFavorite ? "Remover dos favoritos" : "Favoritar"}
+           
+          </Button>
+        )}
       </div>
     </div>
   );
