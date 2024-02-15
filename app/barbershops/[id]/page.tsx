@@ -15,6 +15,7 @@ import BarbershopInfo from "./_components/barbershop-info";
 import ServiceItem from "./_components/service-item";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/_lib/auth";
+import BarbershopLink from "./_components/barbership-link";
 
 interface BarbershopDetailsProps {
   params: {
@@ -34,7 +35,7 @@ const BarbershopDetails = async ({ params }: BarbershopDetailsProps) => {
     },
     include: {
       services: true,
-      UserFavoriteBarbershop: true
+      UserFavoriteBarbershop: true,
     },
   });
 
@@ -43,17 +44,18 @@ const BarbershopDetails = async ({ params }: BarbershopDetailsProps) => {
     return null;
   }
 
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
 
   return (
-    <div>
-      <BarbershopInfo barbershop={barbershop} />
-
-      <div className="px-5 flex flex-col gap-4 py-6">
-        {barbershop.services.map((service) => (
-          <ServiceItem  barbershop={barbershop} isAuthenticated={!!session?.user} key={service.id} service={service} />
-        ))}
-      </div>
+    <div className="px-5 flex flex-col gap-4 py-6">
+      {barbershop.services.map((service) => (
+        <ServiceItem
+          barbershop={barbershop}
+          isAuthenticated={!!session?.user}
+          key={service.id}
+          service={service}
+        />
+      ))}
     </div>
   );
 };
