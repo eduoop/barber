@@ -32,8 +32,8 @@ const BarbershopLayout = async ({
     <>
       <BarbershopInfo barbershop={barbershop} />
       <div className="flex px-5 pt-6 gap-2">
-        <BarbershopLink href="/barbershops/c895365c-1475-49dd-aced-95401b48780b" name="Serviços" />
-        <BarbershopLink href="/barbershops/c895365c-1475-49dd-aced-95401b48780b/details" name="Detalhes" />
+        <BarbershopLink href={`/barbershops/${barbershop.id}`} name="Serviços" />
+        <BarbershopLink href={`/barbershops/${barbershop.id}/details`} name="Detalhes" />
       </div>
       {children}
     </>
