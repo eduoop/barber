@@ -105,12 +105,16 @@ async function seedDatabase() {
       const name = creativeNames[i];
       const address = addresses[i];
       const imageUrl = images[i];
+      const description = generateBarbershopDescription(); 
+      const phone = generateBarbershopPhone(); 
 
       const barbershop = await prisma.barbershop.create({
         data: {
           name,
           address,
           imageUrl: imageUrl,
+          description: description,
+          phone: phone
         },
       });
 
@@ -138,6 +142,42 @@ async function seedDatabase() {
   } catch (error) {
     console.error("Erro ao criar as barbearias:", error);
   }
+}
+
+function generateBarbershopDescription() {
+  const descriptions = [
+    "Um lugar vintage para homens modernos.",
+    "Especialistas em cortes e estilos únicos.",
+    "Experiência premium em barba e navalha.",
+    "Destaque sua elegância no Dapper Den.",
+    "Transformando cabelo e barba com estilo.",
+    "Machado & Tesoura - O poder do visual masculino.",
+    "Barbearia Elegance - Onde a beleza encontra o cuidado.",
+    "Aparência Impecável - Sempre no seu melhor.",
+    "Estilo Urbano para homens urbanos.",
+    "Estilo Clássico - Tradição em cortes e barbas.",
+  ];
+
+  const randomIndex = Math.floor(Math.random() * descriptions.length);
+  return descriptions[randomIndex];
+}
+
+function generateBarbershopPhone() {
+  const phoneNumbers = [
+    '(11) 12345-6789',
+    '(22) 98765-4321',
+    '(33) 24680-1357',
+    '(44) 97531-8642',
+    '(55) 86420-9753',
+    '(66) 53124-7089',
+    '(77) 78901-2345',
+    '(88) 12345-6789',
+    '(99) 56789-0123',
+    '(00) 10293-8475'
+  ];
+
+  const randomIndex = Math.floor(Math.random() * phoneNumbers.length);
+  return phoneNumbers[randomIndex];
 }
 
 seedDatabase();

@@ -11,14 +11,14 @@ datasource db {
 }
 
 model User {
-  id                     String                   @id @default(cuid())
-  name                   String?
-  email                  String?                  @unique
-  emailVerified          DateTime?
-  image                  String?
-  accounts               Account[]
-  sessions               Session[]
-  bookings               Booking[]
+  id                      String                   @id @default(cuid())
+  name                    String?
+  email                   String?                  @unique
+  emailVerified           DateTime?
+  image                   String?
+  accounts                Account[]
+  sessions                Session[]
+  bookings                Booking[]
   userFavoriteBarbershops UserFavoriteBarbershop[]
 }
 
@@ -27,6 +27,8 @@ model Barbershop {
   name                   String
   address                String
   imageUrl               String
+  description            String
+  phone                  String
   services               Service[]
   bookings               Booking[]
   UserFavoriteBarbershop UserFavoriteBarbershop[]
